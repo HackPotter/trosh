@@ -1,3 +1,10 @@
+//Trosh - The Troll Shell
+//Written by Jack Potter
+//Parts of this was originally written for CprE 308 at ISU, also by Jack
+//The rest was written to be mean to CprE 231 Students. 
+//As a general rule, you probably shouldn't use this.
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> //necessary for string operations
@@ -11,6 +18,10 @@ void defaultPrompt();
 int loop();
 char *getLine();
 
+
+
+//Most of this is the vestigial remains of what I wrote for CprE 308
+//The Fun stuff is all way further down
 int main(int argc, char **argv){
     
     //Set up -p flag for comparing with passed flag
@@ -53,7 +64,7 @@ int main(int argc, char **argv){
 
 }
 
-void defaultPrompt(char *prompt){
+void defaultPrompt(char *prompt){ 
     strcpy(prompt, "[root@AppleWatch ß@$λ]$ ");
 }
 
@@ -62,15 +73,15 @@ void defaultPrompt(char *prompt){
 int loop(char *prompt){
     //Built-in commands
     const char *builtIns[50];
-    builtIns[0] = "exit";
+    builtIns[0] = "exit"; 
     builtIns[1] = "pid";
     builtIns[2] = "ppid";
     builtIns[3] = "cd";
     builtIns[4] = "pwd";
     builtIns[5] = "set";
-    builtIns[6] = "get";
-    builtIns[7] = "man";
-    builtIns[8] = "bash";
+    builtIns[6] = "get"; //These first 6 were put in for the assignment
+    builtIns[7] = "man"; //The next 8 are the mean ones
+    builtIns[8] = "bash";//Obviously you can easily add more to this array
     builtIns[9] = "sh";
     builtIns[10] = "nano";
     builtIns[11] = "emacs";
@@ -95,8 +106,8 @@ int loop(char *prompt){
         }
 
         printf("%s", prompt);
-        //fgets(line, 1023, stdin);
-        //scanf("%m[^\n]s", &line);
+        //fgets(line, 1023, stdin); //Yeah so this was not the way to do it
+        //scanf("%m[^\n]s", &line); //neither was this
         count = 0;
         for(int i=0; i<100; i++){
             command[i] = NULL;
@@ -112,11 +123,11 @@ int loop(char *prompt){
             count++;
         }
 
-        if(!command[0]){ //If enter pressed on empty line
+        if(!command[0]){ //If enter pressed on empty line, add mean stuff here
             continue;
         }
 
-        if(!strcmp(command[0], builtIns[14])){
+        if(!strcmp(command[0], builtIns[14])){ //"clear" the screen
             for(int l = 0; l < 100; l++){
                 for(int c = 0; c < 100; c++){
                     char randomGarbage = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()-_=+~`,<.>?/"[random () % 58];
@@ -127,7 +138,7 @@ int loop(char *prompt){
             continue;
         }
 
-        if(!strcmp(command[0], builtIns[13])){
+        if(!strcmp(command[0], builtIns[13])){ //Meme on 'em
             printf(ANSI_COLOR_CYAN  "                   -`                 \n");
             printf("                  .o+`                 \n");
             printf("                 `ooo/                 \n");
@@ -151,23 +162,23 @@ int loop(char *prompt){
             continue; // Thanks to Screenfetch for the awesome ascii art
         }
 
-        if(!strcmp(command[0], builtIns[11])){
+        if(!strcmp(command[0], builtIns[11])){ //Sorry RMS but I can't get down w/ emacs
             printf("lol no\n");
             continue;
         }
 
-        if(!strcmp(command[0], builtIns[12])){
+        if(!strcmp(command[0], builtIns[12])){ //Oh, wow, isn't this a clever response.
             printf("How should I know who you are?\n");
             continue;
         }
         
-       if(!strcmp(command[0], builtIns[0])){
+       if(!strcmp(command[0], builtIns[0])){ //Exits normally, could put fun stuff here too
             //exit
             printf("Exiting\n");
             break;
         }  
         
-        else if(!strcmp(command[0], builtIns[1])){
+        else if(!strcmp(command[0], builtIns[1])){ //Boring process stuff for class
             //pid does not take args, do nothing if user tries to pass args
             if(command[1]){
                 printf("'pid' does not take any arguments.\n");
@@ -177,7 +188,7 @@ int loop(char *prompt){
             printf("%d\n", getpid());
         }
 
-        else if(!strcmp(command[0], builtIns[2])){
+        else if(!strcmp(command[0], builtIns[2])){//Oh boy more boring stuff
             //ppid does not take args, do nothing if user tries to pass args
             if(command[1]){
                 printf("'ppid' does not take any arguments.\n");
@@ -187,19 +198,19 @@ int loop(char *prompt){
             printf("%d\n", getppid());
         }
 
-        else if(!strcmp(command[0], builtIns[3])){
+        else if(!strcmp(command[0], builtIns[3])){ //easier than expected tbh
             //Should recieve either one arg or no arguments
             if(command[2]){
                 printf("Usage: cd <path>\n");
                 continue;
             }
             
-            if(command[1]){
+            if(command[1]){ //haha you messed up
                 if(chdir(command[1])){
                     perror("Error");
                 }
             }
-            else{
+            else{//Sorry how do you not have a home dir?
                 if(chdir(getenv("HOME"))){
                     perror("Error");
                 }
@@ -215,7 +226,7 @@ int loop(char *prompt){
             }
             char cwd[1024];
             if(getcwd(cwd, sizeof(cwd)) == NULL){
-                printf("Uh-oh.\n");
+                printf("Uh-oh.\n"); //In all my time debugging haven't seen this
                 continue;
             }
             else{
@@ -224,7 +235,7 @@ int loop(char *prompt){
             
         }
         
-        else if(!strcmp(command[0], builtIns[5])){
+        else if(!strcmp(command[0], builtIns[5])){ //Mostly works
             //If two args, set env variable. If one, clear variable
             if(command[3] || !command[1]){
                 printf("Usage: set <var> <value>\n");
@@ -241,7 +252,7 @@ int loop(char *prompt){
 
         }
 
-        else if(!strcmp(command[0], builtIns[6])){
+        else if(!strcmp(command[0], builtIns[6])){ //Also mostly works
             //only takes one argument, complain if more or fewer are passed
             if(command[2] || !command[1]){
                 printf("Usage: get <var>\n");
@@ -253,7 +264,7 @@ int loop(char *prompt){
             }          
         }
 
-        else if(!strcmp(command[0], builtIns[7])){
+        else if(!strcmp(command[0], builtIns[7])){ //haha this one is very rude
             if(command[1]){
                 printf("For security purposes, the man page on %s has been removed.\n", command[1]);
             }
@@ -262,12 +273,12 @@ int loop(char *prompt){
             }
         }
 
-        else if(!strcmp(command[0], builtIns[8]) || !strcmp(command[0], builtIns[9])){
+        else if(!strcmp(command[0], builtIns[8]) || !strcmp(command[0], builtIns[9])){ // /bin/bash still works though
             printf("No no no, we can't have you getting a better shell that easily.\n");
             printf("There's a much better and safer way to do things.\n");
         } 
 
-        else if(!strcmp(command[0], builtIns[10])){
+        else if(!strcmp(command[0], builtIns[10])){ //Considered implementing an incremental timer that gets longer w/ each nano call
             printf("Okay, look. I won't stop you from using nano, but you should try vim.\n");
             printf("People say it's intimidating, but it's actually quite simple.\n");
             printf("It's very streamlined and efficient, and the plugins are amazing.\n");
@@ -351,7 +362,7 @@ int loop(char *prompt){
     return(0);
 }
 
-char *getLine(){
+char *getLine(){ //here be magic (thanks Sean)
     char *line;
     int curChar;
     size_t size = 10;
