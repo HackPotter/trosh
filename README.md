@@ -10,6 +10,7 @@ Maybe at some point in the future I'll take the time to write a proper readme,
 but don't hold your breath. 
 
 Compiling: literally just run `make`
+
 Useage: Don't
 
 Also, FYI: This shell was originally written as an assignment for Computer
